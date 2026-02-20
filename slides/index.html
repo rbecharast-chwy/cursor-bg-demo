@@ -1,0 +1,394 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Background Agents en Cursor</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/dist/reveal.css" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/dist/theme/black.css" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/plugin/highlight/monokai.css" />
+  <style>
+    .reveal h1, .reveal h2, .reveal h3 { text-transform: none; }
+    .reveal .slides section { text-align: left; }
+    .reveal .slides section.center { text-align: center; }
+    .reveal pre { width: 100%; font-size: 0.55em; }
+    .reveal ul { font-size: 0.85em; }
+    .reveal .small { font-size: 0.7em; }
+    .reveal .highlight-red { color: #ff6b6b; }
+    .reveal .highlight-green { color: #51cf66; }
+    .reveal .highlight-blue { color: #74c0fc; }
+    .reveal .highlight-yellow { color: #ffd43b; }
+    .reveal .two-columns { display: flex; gap: 2em; }
+    .reveal .two-columns > * { flex: 1; }
+    .reveal .emoji { font-size: 1.5em; }
+    .reveal blockquote { font-size: 0.8em; border-left: 4px solid #74c0fc; padding-left: 1em; }
+  </style>
+</head>
+<body>
+  <div class="reveal">
+    <div class="slides">
+
+      <!-- ==================== PARTE 1: TEORÍA ==================== -->
+
+      <!-- Slide 1: Título -->
+      <section class="center">
+        <h1>Background Agents</h1>
+        <h2>en Cursor</h2>
+        <p class="small" style="margin-top: 2em;">Automatizando tareas de desarrollo en segundo plano</p>
+        <p class="small" style="color: #888;">Rodrigo &mdash; 2026</p>
+      </section>
+
+      <!-- Slide 2: ¿Qué es Cursor? -->
+      <section>
+        <h2>Cursor en 30 segundos</h2>
+        <ul>
+          <li>Editor de código basado en VS Code</li>
+          <li>IA integrada nativamente (chat, edición, terminal)</li>
+          <li>Entiende el contexto completo de tu proyecto</li>
+          <li>Tab, Cmd+K, Chat, Composer, <strong class="highlight-blue">Agent Mode</strong></li>
+        </ul>
+        <br/>
+        <blockquote>
+          "Un IDE que entiende tu código como un compañero de equipo"
+        </blockquote>
+      </section>
+
+      <!-- Slide 3: El problema -->
+      <section>
+        <h2>El problema</h2>
+        <div class="two-columns">
+          <div>
+            <h3 class="highlight-red">Lo que nos pasa</h3>
+            <ul>
+              <li>Estás en una feature compleja...</li>
+              <li>Llega un bug report urgente</li>
+              <li>Hay que actualizar docs</li>
+              <li>Un refactor pendiente bloquea al equipo</li>
+            </ul>
+          </div>
+          <div>
+            <h3 class="highlight-yellow">El costo</h3>
+            <ul>
+              <li>Context switching constante</li>
+              <li>23 min para retomar concentración</li>
+              <li>Tareas "simples" se acumulan</li>
+              <li>El backlog crece</li>
+            </ul>
+          </div>
+        </div>
+      </section>
+
+      <!-- Slide 4: ¿Qué son los Background Agents? -->
+      <section>
+        <h2>Background Agents</h2>
+        <p>Agentes de IA que trabajan <strong class="highlight-green">en segundo plano</strong>, de forma autónoma.</p>
+        <ul>
+          <li>Reciben un issue o tarea</li>
+          <li>Ejecutan en una VM en la nube</li>
+          <li>Trabajan en una rama separada</li>
+          <li>Crean un PR cuando terminan</li>
+          <li><strong>No interrumpen tu flujo de trabajo</strong></li>
+        </ul>
+        <br/>
+        <blockquote>"Dale la tarea al agente, seguí trabajando, revisá el PR después."</blockquote>
+      </section>
+
+      <!-- Slide 5: Arquitectura -->
+      <section>
+        <h2>¿Cómo funcionan?</h2>
+        <pre><code class="language-text" data-trim>
+┌─────────────────────────────────────────────┐
+│              Tu máquina local                │
+│  ┌──────────────────────┐                    │
+│  │  Cursor IDE          │                    │
+│  │  (tu trabajo normal) │── asignar issue ──►│
+│  └──────────────────────┘                    │
+└──────────────────────────────────────────────┘
+                                      │
+                                      ▼
+┌─────────────────────────────────────────────┐
+│              Nube (VM aislada)               │
+│  ┌──────────────────────┐                    │
+│  │  Background Agent    │                    │
+│  │  - Clona repo        │                    │
+│  │  - Crea branch       │                    │
+│  │  - Analiza código    │                    │
+│  │  - Hace cambios      │                    │
+│  │  - Corre tests       │                    │
+│  │  - Crea PR           │                    │
+│  └──────────────────────┘                    │
+└─────────────────────────────────────────────┘
+        </code></pre>
+      </section>
+
+      <!-- Slide 6: Flujo de trabajo -->
+      <section>
+        <h2>Flujo de trabajo típico</h2>
+        <ol>
+          <li><strong class="highlight-blue">Crear issue</strong> en GitHub con descripción clara</li>
+          <li><strong class="highlight-blue">Asignar al Background Agent</strong> desde Cursor</li>
+          <li><strong class="highlight-green">Seguir trabajando</strong> en lo tuyo</li>
+          <li><strong class="highlight-yellow">Recibir notificación</strong> cuando el agente termina</li>
+          <li><strong>Revisar el PR</strong> y hacer merge</li>
+        </ol>
+        <br/>
+        <p class="small" style="color: #888;">Tiempo típico: 2-10 minutos dependiendo de la complejidad</p>
+      </section>
+
+      <!-- Slide 7: Casos de uso ideales -->
+      <section>
+        <h2>Casos de uso ideales</h2>
+        <div class="two-columns">
+          <div>
+            <h3 class="highlight-green">Funciona bien</h3>
+            <ul>
+              <li>Bug fixes bien definidos</li>
+              <li>Agregar tests</li>
+              <li>Actualizar documentación</li>
+              <li>Refactors acotados</li>
+              <li>Agregar validaciones</li>
+              <li>Tareas con specs claros</li>
+            </ul>
+          </div>
+          <div>
+            <h3 class="highlight-red">No ideal (aún)</h3>
+            <ul>
+              <li>Features nuevas complejas</li>
+              <li>Cambios arquitecturales</li>
+              <li>Tareas que requieren contexto de negocio profundo</li>
+              <li>Integraciones con servicios externos</li>
+            </ul>
+          </div>
+        </div>
+      </section>
+
+      <!-- Slide 8: Limitaciones -->
+      <section>
+        <h2>Limitaciones y consideraciones</h2>
+        <ul>
+          <li><strong class="highlight-yellow">Requiere buena descripción</strong> &mdash; cuanto mejor el issue, mejor el resultado</li>
+          <li><strong class="highlight-yellow">No reemplaza code review</strong> &mdash; siempre revisar el PR</li>
+          <li><strong class="highlight-yellow">Funciona mejor con tests</strong> &mdash; el agente los usa para validar</li>
+          <li><strong class="highlight-yellow">Acceso a secrets limitado</strong> &mdash; por seguridad, no tiene acceso a .env</li>
+          <li><strong class="highlight-yellow">Feature en beta</strong> &mdash; sigue mejorando</li>
+        </ul>
+      </section>
+
+      <!-- Slide 9: Comparación -->
+      <section>
+        <h2>¿Cómo se compara?</h2>
+        <table style="font-size: 0.65em; width: 100%;">
+          <thead>
+            <tr>
+              <th></th>
+              <th>Copilot</th>
+              <th>Cursor Agent (inline)</th>
+              <th>Background Agent</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>Dónde corre</strong></td>
+              <td>En tu editor</td>
+              <td>En tu editor</td>
+              <td>VM en la nube</td>
+            </tr>
+            <tr>
+              <td><strong>Interrupción</strong></td>
+              <td>Sí, inline</td>
+              <td>Sí, toma control</td>
+              <td>No, es async</td>
+            </tr>
+            <tr>
+              <td><strong>Autonomía</strong></td>
+              <td>Baja (sugerencias)</td>
+              <td>Media (guiado)</td>
+              <td>Alta (autónomo)</td>
+            </tr>
+            <tr>
+              <td><strong>Output</strong></td>
+              <td>Líneas de código</td>
+              <td>Cambios en archivos</td>
+              <td>Pull Request completo</td>
+            </tr>
+            <tr>
+              <td><strong>Mejor para</strong></td>
+              <td>Autocompletar</td>
+              <td>Tareas interactivas</td>
+              <td>Tareas independientes</td>
+            </tr>
+          </tbody>
+        </table>
+      </section>
+
+      <!-- ==================== PARTE 2: DEMO ==================== -->
+
+      <!-- Slide 10: Setup -->
+      <section class="center">
+        <h1>Demo en vivo</h1>
+        <p class="highlight-blue" style="font-size: 1.2em;">Task Manager API con bugs intencionales</p>
+      </section>
+
+      <!-- Slide 11: Proyecto demo -->
+      <section>
+        <h2>El proyecto demo</h2>
+        <pre><code class="language-text" data-trim>
+task-manager-api/
+├── src/
+│   ├── index.js          # Entry point Express
+│   ├── routes/tasks.js   # CRUD de tareas
+│   └── utils/validators.js
+├── tests/
+│   └── tasks.test.js     # Tests (algunos fallan!)
+├── README.md             # Documentación incompleta
+└── package.json
+        </code></pre>
+        <p>3 bugs intencionales, 3 issues de GitHub, 3 demos.</p>
+      </section>
+
+      <!-- Slide 12: Demo 1 intro -->
+      <section>
+        <h2>Demo 1: Fix GET /tasks/:id</h2>
+        <p><strong>El bug:</strong> Comparación con <code>==</code> en vez de <code>===</code></p>
+        <pre><code class="language-javascript" data-trim>
+// Bug: usa == (loose equality)
+router.get('/:id', (req, res) => {
+  const task = tasks.find(t => t.id == req.params.id);
+  // ...
+});
+
+// Fix esperado:
+router.get('/:id', (req, res) => {
+  const id = parseInt(req.params.id, 10);
+  const task = tasks.find(t => t.id === id);
+  // ...
+});
+        </code></pre>
+        <p class="highlight-yellow">Asignar issue → Background Agent → PR</p>
+      </section>
+
+      <!-- Slide 13: Demo 1 en vivo -->
+      <section class="center">
+        <h2>Demo 1</h2>
+        <p style="font-size: 1.5em;">En vivo en Cursor</p>
+        <p class="small" style="color: #888;">Asignar issue "Fix bug in GET /tasks/:id"</p>
+      </section>
+
+      <!-- Slide 14: Demo 2 intro -->
+      <section>
+        <h2>Demo 2: Agregar validación</h2>
+        <p><strong>El bug:</strong> Se pueden crear tareas sin título</p>
+        <pre><code class="language-javascript" data-trim>
+// Bug: no valida título vacío
+function validateTask(task) {
+  if (task.title === undefined) {  // "" pasa esta validación!
+    return { valid: false, error: 'Title is required' };
+  }
+  return { valid: true };
+}
+        </code></pre>
+        <pre><code class="language-bash" data-trim>
+# Esto no debería funcionar, pero funciona:
+curl -X POST /tasks -d '{"title": ""}' # 201 Created (bug!)
+curl -X POST /tasks -d '{"title": "   "}' # 201 Created (bug!)
+        </code></pre>
+      </section>
+
+      <!-- Slide 15: Demo 2 en vivo -->
+      <section class="center">
+        <h2>Demo 2</h2>
+        <p style="font-size: 1.5em;">En vivo en Cursor</p>
+        <p class="small" style="color: #888;">Asignar issue "Add input validation and tests"</p>
+      </section>
+
+      <!-- Slide 16: Demo 3 intro -->
+      <section>
+        <h2>Demo 3: Actualizar docs</h2>
+        <p><strong>El problema:</strong> README incompleto</p>
+        <div class="two-columns">
+          <div>
+            <h3 class="highlight-red">Actual</h3>
+            <pre><code class="language-markdown" data-trim>
+# Task Manager API
+## Endpoints
+- GET /tasks
+            </code></pre>
+          </div>
+          <div>
+            <h3 class="highlight-green">Esperado</h3>
+            <pre><code class="language-markdown" data-trim>
+# Task Manager API
+## Endpoints
+- GET /tasks
+- GET /tasks/:id
+- POST /tasks
+- PUT /tasks/:id
+- DELETE /tasks/:id
+## Testing
+npm test
+            </code></pre>
+          </div>
+        </div>
+      </section>
+
+      <!-- Slide 17: Demo 3 en vivo -->
+      <section class="center">
+        <h2>Demo 3</h2>
+        <p style="font-size: 1.5em;">En vivo en Cursor</p>
+        <p class="small" style="color: #888;">Asignar issue "Update README with API documentation"</p>
+      </section>
+
+      <!-- Slide 18: Revisando los PRs -->
+      <section>
+        <h2>Revisando los PRs</h2>
+        <ul>
+          <li>Cada agente creó un PR independiente</li>
+          <li>Cambios claros y enfocados</li>
+          <li>Commits descriptivos</li>
+          <li>Los tests pasan</li>
+        </ul>
+        <p style="margin-top: 1em;" class="highlight-green">Veamos los resultados en GitHub...</p>
+      </section>
+
+      <!-- ==================== PARTE 3: CIERRE ==================== -->
+
+      <!-- Slide 19: Tips -->
+      <section>
+        <h2>Tips y mejores prácticas</h2>
+        <ul>
+          <li><strong>Escribí issues claros y específicos</strong> &mdash; el agente es tan bueno como el issue</li>
+          <li><strong>Incluí tests en el repo</strong> &mdash; el agente los corre para validar</li>
+          <li><strong>Empezá con tareas chicas</strong> &mdash; bugs, docs, validaciones</li>
+          <li><strong>Siempre revisá el PR</strong> &mdash; no es merge automático</li>
+          <li><strong>Usá .cursorrules</strong> &mdash; para darle contexto y estilo al agente</li>
+          <li><strong>Iterá</strong> &mdash; podés comentar en el PR para que el agente ajuste</li>
+        </ul>
+      </section>
+
+      <!-- Slide 20: Q&A -->
+      <section class="center">
+        <h1>Preguntas?</h1>
+        <p style="margin-top: 2em; font-size: 0.8em; color: #888;">
+          Recursos:<br/>
+          <a href="https://docs.cursor.com">docs.cursor.com</a><br/>
+          <a href="https://cursor.com/changelog">cursor.com/changelog</a>
+        </p>
+      </section>
+
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/dist/reveal.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/plugin/highlight/highlight.js"></script>
+  <script>
+    Reveal.initialize({
+      hash: true,
+      slideNumber: true,
+      plugins: [RevealHighlight],
+      transition: 'slide',
+      width: 1280,
+      height: 720,
+    });
+  </script>
+</body>
+</html>
