@@ -1,0 +1,12 @@
+---
+description: Pasar PR a "Ready for review" al finalizar
+alwaysApply: true
+---
+
+Al terminar una tarea y después de `git push`, verifica si la PR de la rama actual está en draft.
+Si está en draft, ejecuta:
+
+PR_NUMBER=$(gh pr list --head "$(git branch --show-current)" --json number,isDraft --jq '.[] | select(.isDraft==true) | .number' | head -n1)
+if [ -n "$PR_NUMBER" ]; then gh pr ready "$PR_NUMBER"; fi
+
+No fallar la tarea si no existe PR.
