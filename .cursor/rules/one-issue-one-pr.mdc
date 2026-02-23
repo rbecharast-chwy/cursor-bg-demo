@@ -1,0 +1,19 @@
+---
+description: Un issue por rama y PR
+alwaysApply: true
+---
+
+Flujo obligatorio para tareas con GitHub issues:
+
+1) Un issue = una rama = una PR.
+2) Nunca mezclar cambios de issues distintos en la misma rama.
+3) Si la tarea referencia un issue (URL o #numero), extraer ISSUE_NUMBER y crear una rama dedicada desde main:
+   - Formato: issue/<ISSUE_NUMBER>-<slug-corto>
+4) No reutilizar una rama que ya tenga PR de otro issue.
+5) Todos los commits de la tarea deben ir en la rama dedicada del issue.
+6) La PR debe incluir "Closes #<ISSUE_NUMBER>" en el cuerpo.
+7) Si no existe PR para la rama actual, crear una nueva PR; no actualizar PR de otro issue.
+
+Chequeos operativos recomendados:
+- Rama actual: git branch --show-current
+- PR de la rama actual: gh pr list --head "$(git branch --show-current)" --json number,state,isDraft
