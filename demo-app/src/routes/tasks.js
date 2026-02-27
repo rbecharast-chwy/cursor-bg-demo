@@ -17,11 +17,14 @@ router.get('/', (req, res) => {
 });
 
 // GET /tasks/:id — Get a single task
-// BUG: Uses == instead of === for comparison, and does not parse the param.
-// This causes req.params.id (string) == task.id (number) to work inconsistently.
-// It returns the wrong task or undefined in edge cases.
 router.get('/:id', (req, res) => {
-  const task = tasks.find(t => t.id == req.params.id);
+  const taskId = Number(req.params.id);
+
+  if (!Number.isInteger(taskId)) {
+    return res.status(400).json({ error: 'Invalid task id' });
+  }
+
+  const task = tasks.find(t => t.id === taskId);
 
   if (!task) {
     return res.status(404).json({ error: 'Task not found' });

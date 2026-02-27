@@ -26,6 +26,12 @@ describe('GET /tasks/:id', () => {
     expect(res.status).toBe(404);
   });
 
+  it('should return 400 for non-numeric id', async () => {
+    const res = await request(app).get('/tasks/not-a-number');
+    expect(res.status).toBe(400);
+    expect(res.body.error).toBe('Invalid task id');
+  });
+
   // This test exposes the == vs === bug:
   // When id is passed as a string with leading zeros or special numeric strings,
   // the loose comparison can cause unexpected behavior.
